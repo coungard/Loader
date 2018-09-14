@@ -13,12 +13,12 @@ public class MainMenu extends JPanel {
         setOpaque(false);
 
         JLabel label = new JLabel();
-        label.setBounds(70,0, 500,200);
-        label.setText("УСТАНОВКА НА ДИСК");
+        label.setBounds(100,0, 500,200);
+        label.setText("WELCOME TO SETUP");
         label.setFont(new Font(Font.DIALOG, Font.PLAIN, 40));
 
-        JButton exit = new JButton("ВЫХОД");
-        start = new JButton("ПРОДОЛЖИТЬ");
+        JButton exit = new JButton("EXIT");
+        start = new JButton("CONTINUE");
 
         exit.setBounds(50, 240, 200, 50);
         start.setBounds(350, 240, 200, 50);

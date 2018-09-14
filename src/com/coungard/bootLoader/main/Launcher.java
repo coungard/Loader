@@ -10,23 +10,27 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class Launcher extends JFrame {
-    private static MainMenu mainMenu;
+    private static final String PATH = "/com/coungard/bootLoader/res/img/background.png";
+    private MainMenu mainMenu;
     private static Sections sections;
     private static Loading loading;
     private static ArrayList<JPanel> pages = new ArrayList<>();
-    private static final String PATH = "/com/coungard/bootLoader/res/img/background.png";
 
     private Launcher() {
         super("Boot Loader");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        setResizable(false);
+        setAlwaysOnTop(true);
         setLocationRelativeTo(null);
         setSize(600,400);
         getContentPane().setLayout(null);
 
         mainMenu = new MainMenu();
         sections = new Sections();
+        loading = new Loading();
         pages.add(mainMenu);
         pages.add(sections);
+        pages.add(loading);
 
         for (JPanel panel : pages) {
             panel.setBounds(0,0, getWidth(), getHeight());
@@ -67,12 +71,18 @@ public class Launcher extends JFrame {
         });
     }
 
-//    public void startLoading(String section) {
-//        sections.setVisible(false);
-//        loading = new Loading(section);
-//        loading.setBounds(0,0,getWidth(),getHeight());
-//        getContentPane().add(loading);
-//    }
-
-
+    public static void bindListener() {
+        for (final JButton but : sections.buttons) {
+            but.addActionListener(new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    sections.setVisible(false);
+                    Loading.section = but.getToolTipText();
+                    loading.setVisible(true);
+                    loading.createProgressBar();
+                    loading.start();
+                }
+            });
+        }
+    }
 }

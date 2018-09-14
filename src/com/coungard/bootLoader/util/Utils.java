@@ -1,7 +1,5 @@
 package com.coungard.bootLoader.util;
 
-import javax.swing.*;
-
 public class Utils {
 
     public static Process runCmd(String[] args) {
