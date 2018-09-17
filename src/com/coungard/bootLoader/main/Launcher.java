@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class Launcher extends JFrame {
-    private static final String PATH = "/com/coungard/bootLoader/res/img/background.png";
+    private static final String PATH = "res/img/background.png";
     private MainMenu mainMenu;
     private static Sections sections;
     private static Loading loading;
@@ -52,7 +52,7 @@ public class Launcher extends JFrame {
 
     private void init() {
         JLabel background = new JLabel();
-        background.setIcon(new ImageIcon(getClass().getResource(PATH)));
+        background.setIcon(new ImageIcon(PATH));
         background.setBounds(0,0, background.getIcon().getIconWidth(), background.getIcon().getIconHeight());
         getContentPane().add(background, JLayeredPane.DEFAULT_LAYER);
 

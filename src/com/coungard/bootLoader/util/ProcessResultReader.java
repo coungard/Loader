@@ -30,6 +30,7 @@ public class ProcessResultReader extends Thread{
                 lines.add(line);
                 this.sb.append(line).append("\n");
             }
+            br.close();
         }
         catch (final IOException ioe)
         {

@@ -12,7 +12,7 @@ echo "format"  >>/tmp/install.log
 sleep 5
 echo "copy" >>/tmp/install.log
 sleep 5
-echo "install_error" >>/tmp/install.log
+echo "img_packaging" >>/tmp/install.log
 sleep 5
 echo "bootloader" >>/tmp/install.log
 sleep 5

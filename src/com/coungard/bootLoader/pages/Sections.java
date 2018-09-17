@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Sections extends JPanel {
-    private final static String disksPath = "src/com/coungard/bootLoader/res/script/getdisk.sh";
+    private final static String disksPath = "./getdisk.sh";
     public ArrayList<JButton> buttons = new ArrayList<>();
 
     public Sections() {

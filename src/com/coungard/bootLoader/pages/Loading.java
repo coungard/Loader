@@ -9,14 +9,14 @@ import java.awt.event.ActionEvent;
 import java.io.*;
 
 public class Loading extends JPanel {
-    private final String installerPath = "src/com/coungard/bootLoader/res/script/install.sh";
+    private final String installerPath = "./install.sh";
     private File logFile = new File("/tmp/install.log");
 
     private static JButton reset;
     private static String info = "";
     private JProgressBar progressBar;
     public static String section;
-    private int progress = 0;
+    private BufferedReader reader;
 
     public Loading() {
         setLayout(null);
@@ -35,15 +35,20 @@ public class Loading extends JPanel {
 
                     stderr.start();
                     stdout.start();
-                    FileInputStream input = new FileInputStream(logFile);
-                    InputStreamReader reader = new InputStreamReader(input);
-                    BufferedReader buffer = new BufferedReader(reader);
+                    reader = new BufferedReader(new InputStreamReader(new FileInputStream(logFile)));
+
+                    progressBar = new JProgressBar();
+                    progressBar.setStringPainted(true);
+                    progressBar.setMinimum(0);
+                    progressBar.setMaximum(100);
+                    progressBar.setBounds(20, 310, 350, 20);
+                    add(progressBar);
 
                     int iter = 0;
                     while (true) {
-                        if ((info = buffer.readLine()) != null) {
+                        if ((info = reader.readLine()) != null) {
                             if (info.equals("install_error")) {
-                                addInfo(iter,true);
+                                addInfo(iter, true);
                                 reset.setVisible(true);
                                 System.out.println(info);
                                 break;
@@ -51,33 +56,21 @@ public class Loading extends JPanel {
                             if (info.equals("finish")) {
                                 reset.setVisible(true);
                                 System.out.println(info);
+                                progressBar.setValue(100);
                                 break;
                             }
                             System.out.println(info);
-                            addInfo(iter++,false);
-                            progress = iter * 15;
+                            addInfo(iter++, false);
+                            progressBar.setValue(iter * 15);
                         }
                     }
+                    reader.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
         rxThread.start();
-        Thread endThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    if (!rxThread.isAlive()) {
-                        progressBar.setValue(100);
-                        break;
-                    } else {
-                        progressBar.setValue(progress);
-                    }
-                }
-            }
-        });
-        endThread.start();
     }
 
     private void addInfo(int position, boolean error) {
@@ -97,16 +90,8 @@ public class Loading extends JPanel {
         label.setBounds(130, 20, 500, 40);
         add(label);
 
-        progressBar = new JProgressBar();
-//        progressBar.setIndeterminate(true);
-        progressBar.setStringPainted(true);
-        progressBar.setMinimum(0);
-        progressBar.setMaximum(100);
-        progressBar.setBounds(20, 310, 350, 20);
-        add(progressBar);
-
         reset = new JButton("SHUTDOWN");
-        reset.setBounds(420,300,150, 40);
+        reset.setBounds(420, 300, 150, 40);
         reset.setVisible(false);
         reset.addActionListener(new AbstractAction() {
             @Override

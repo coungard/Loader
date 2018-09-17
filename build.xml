@@ -1,0 +1,41 @@
+<project name="Loader" default="jar" xmlns:ivy="antlib:org.apache.ivy.ant"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="antlib:org.apache.ivy.ant ">
+
+    <target name="jar" depends="compile">
+        <jar destfile="build/dist/PayGo_installer.jar">
+            <fileset dir="build/classes">
+                <include name="**/*.*"/>
+            </fileset>
+            <manifest>
+                <attribute name="Main-Class" value="com.coungard.bootLoader.main.Launcher"/>
+                <attribute name="Class-Path" value="${manifest_cp}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="compile" depends="retrieveDependencies,createDirStruct,copyRes">
+        <javac destdir="build/classes" debug="true" encoding="utf-8">
+            <src path="src"/>
+        </javac>
+    </target>
+
+    <target name="copyRes">
+        <copy todir="build/dist/res" >
+            <fileset dir="res" includes="**"/>
+        </copy>
+    </target>
+
+    <target name="createDirStruct">
+        <mkdir dir="build"/>
+        <mkdir dir="build/classes"/>
+        <mkdir dir="build/dist"/>
+    </target>
+
+    <target name="retrieveDependencies" description="retrieve dependencies">
+        <ivy:retrieve/>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+</project>

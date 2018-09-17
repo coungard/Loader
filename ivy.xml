@@ -1,0 +1,4 @@
+<ivy-module version="2.0">
+    <info organisation="sotas" module="paygo-installer"/>
+    <configurations defaultconfmapping="default->default"/>
+</ivy-module>
